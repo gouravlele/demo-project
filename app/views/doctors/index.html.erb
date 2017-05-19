@@ -1,0 +1,26 @@
+<h1> List of Doctors</h1>
+<%= link_to 'Add Doctor',new_doctor_path%>
+<table class="table">
+  <thead class="thead-inverse">
+    <tr>
+      <th>#</th>
+      <th>Doctor Name</th>
+      <th>Speciality</th>
+      <th>Edit</th>
+      <th>Show</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
+<% @doctors.each_with_index do |d,index|%>
+  <tbody>
+    <tr>
+    <td><%=index=index+1%></td>
+    <td><%=d.doctor_name%></td>
+    <td><%=d.speciality%></td>
+    <td><%= link_to "Edit",edit_doctor_path(d)%></td>
+    <td><%= link_to "Show",doctor_path(d)%></td>
+    <td><%= link_to "Delete",doctor_path(d)%></td>
+    </tr>
+    <%end%>
+  </tbody>
+</table>

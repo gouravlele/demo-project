@@ -1,0 +1,6 @@
+  <b>Likes:-<%= reply.likes.count%></b>
+<%if reply.likes.where(user_id: current_user.id).present? %>
+    <%= link_to 'like',destroy_reply_like_likes_path(id:post.id,post_id:post.id,comment_id:comment.id,reply_id:reply.id,like_id:current_user.likes.find_by(likeable_id: reply.id).id,button:"like"),method: :delete,remote:true,style: "color: blue;",class: "btn btn-small"%></td>
+<%else%>
+    <%= link_to 'like',create_reply_like_likes_path(id:post.id,post_id:post.id,comment_id:comment.id,reply_id:reply.id,button:"like"),method: :post,remote:true, style: "color: gray;",class: "btn btn-small"%>
+<%end%> 

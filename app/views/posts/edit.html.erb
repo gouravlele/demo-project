@@ -1,0 +1,9 @@
+<%= nested_form_for @post,:url=>post_path,:method=>:patch, html: { multipart: true },remote:true do |f|%>
+  <%= f.text_field :post%>
+  <%= f.fields_for :images do|avatar|%>
+  	<%= avatar.file_field :avatar %><br>
+  	<%= avatar.link_to_remove "Remove this avatar " %><br>
+  <%end%>
+  <%= f.link_to_add "Add a avatar", :images %>
+  <%= f.submit%>
+<%end%>

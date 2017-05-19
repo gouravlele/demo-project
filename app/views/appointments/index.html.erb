@@ -1,0 +1,30 @@
+<h1> List of Appointment</h1>
+<div class="page-header">
+<%= link_to 'Add Appointment',new_appointment_path, :class =>"btn btn-success-pull-right"%>
+</div>
+<table class="table">
+  <thead class="thead-inverse">
+    <tr>
+      <th>#</th>
+      <th>Appointment Date</th>
+      <th>Doctor Name</th>
+      <th>Patient Name</th>
+      <th>Edit</th>
+      <th>Show</th>
+      <th>Delete</th>
+    </tr>
+  </thead>
+<% @appointments.each_with_index do |appointment,index|%>
+  <tbody>
+    <tr>
+    <td><%=index=index+1%></td>
+    <td><%=appointment.appointment_date%></td>
+    <td><%=appointment.doctor.doctor_name %></td>
+    <td><%=appointment.patient.patient_name%></td>
+    <td><%=link_to 'Edit',edit_appointment_path(appointment)%></td>
+    <td><%=link_to 'Show',appointment_path(appointment)%></td>
+    <td><%=link_to 'Delete',appointment_path(appointment),method: :delete%></td>
+    </tr>
+    <%end%>
+  </tbody>
+</table>

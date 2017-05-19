@@ -1,0 +1,4 @@
+<%= simple_form_for @reply,:url=>post_comment_reply_path(post_id:@post.id,comment_id:@comment.id,reply_id:@reply.id),:method=>:patch do|f|%>
+  <%= f.input :body%>
+  <%= f.submit%>
+<%end%>  

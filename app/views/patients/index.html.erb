@@ -1,0 +1,26 @@
+<h1> List of Patients</h1>
+<%= link_to 'Add Patient',new_patient_path%>
+<table class="table">
+  <thead class="thead-inverse">
+    <tr>
+      <th>#</th>
+      <th>Patient Name</th>
+      <th>City</th>
+      <th>Edit</th>
+      <th>Show</th>      
+      <th>Delete</th>
+    </tr>
+  </thead>
+<% @patients.each_with_index do |p,index|%>
+  <tbody>
+    <tr>
+    <td><%=index=index+1%></td>
+    <td><%=p.patient_name%></td>
+    <td><%=p.city%></td>
+    <td><%= link_to "Edit",edit_patient_path(p)%></td>
+    <td><%= link_to "Show",patient_path(p)%></td>
+    <td><%= link_to "Delete",patient_path(p),method: :delete%></td>
+    </tr>
+    <%end%>
+  </tbody>
+</table>

@@ -1,0 +1,18 @@
+<table>
+  <tr>
+  <th>Reply</th>
+  </tr>
+  <tr>
+  <td><%=@reply.body%></td>
+  </tr>
+</table>
+Likes:<%=@reply.likes.count%>
+<%= simple_form_for @reply.likes.new,:url=>post_comment_reply_likes_path(post_id:@post.id,comment_id:@comment.id,reply_id:@reply.id),:method=>:post do |f| %>
+   <%= button_tag(type: 'submit', value: 'Like', class: "btn btn-primary btn-sm") do %>
+    <i class="icon-ok icon-white"></i> Like
+    <%end%>
+   <%= button_tag(type: 'submit', value: 'Unlike', class: "btn btn-primary btn-sm") do %>
+    <i class="icon-ok icon-white"></i> Unlike
+  <% end %>
+<%end%>
+

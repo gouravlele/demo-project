@@ -1,0 +1,11 @@
+<%= form_tag @developer,:url=>developers_path,:method=>:post do %>
+  <%= label_tag :name%>
+  <%= text_field_tag :name%>
+
+  <%= label_tag :city%>
+  <%= text_field_tag :city%>
+   
+  <%= label_tag :project%> 
+  <%= select_tag "project",options_for_select(Project.all.collect{|u|[u.name,u.id]})%>
+  <%= submit_tag 'Submit'%>
+<%end%>

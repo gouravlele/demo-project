@@ -1,0 +1,1 @@
+$('#reply_like_<%=@reply.id%>').html("<%=j render :partial=>'likes/like_reply',:locals=>{:post=>@post,:comment=>@comment,:reply=>@reply}%>")

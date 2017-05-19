@@ -1,0 +1,71 @@
+<div class="container" id="post_<%=post.id%>">
+  <div class="row">
+      <div class="[ col-xs-12 col-sm-offset-1 col-sm-5 ]">
+          <div class="[ panel panel-default ] panel-google-plus">
+              <div class="dropdown">
+                  <span class="dropdown-toggle" type="button" data-toggle="dropdown">
+                      <span class="[ glyphicon glyphicon-chevron-down ]"></span>
+                  </span>           
+                  <ul class="dropdown-menu" role="menu">
+                      <li role="presentation"><a role="menuitem" tabindex="-1" ><%= link_to "Edit",edit_post_path(post)%></a></li>
+                      <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><%= link_to "Show",post_path(post)%></a></li>
+                      <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><%= link_to "Delete",post_path(post),method: :delete,remote:true%></a></li>
+                  </ul>
+              </div>
+              <div class="panel-heading">
+                  <%= image_tag post.user.avatar.url(:thumb),:class=>"img-circular" %>
+                  <h3><%=post.user.user_name%></h3>
+                  <h5><span>Shared publicly</span> - <span><%=time_ago_in_words(post.created_at, include_seconds: true)%></span> </h5>
+              </div>
+              <div class="panel-body">
+                <% post.images.each do |image|%>                  
+                  <%= image_tag(image.avatar.url(:medium)) %>
+                <%end%> 
+                  <p><%= post.post%></p>
+              </div>
+                <div class="panel-footer" id="post_like_<%=post.id%>">
+                <%= render "likes/like_post",:post=>post%>
+              </div>
+              <div class="panel-google-plus-comment" >
+                 <button type="button" id="button1_<%=post.id%>" class="btn btn-link">Add Comment</button> 
+                 <button type="button" id="button2_<%=post.id%>" class="btn btn-link">Show All Comment(<%=post.comments.count%>)</button> 
+                <div class="all_comment" id="post_comment_<%=post.id%>">  
+                <% post.comments.each do |comment|%>             
+                  <%= render "comments/comment",:post=>post,:comment=>comment%>
+								<%end%>  
+              </div> 
+                <%= nested_form_for post.comments.new,:url=>post_comments_path(id:post.id,post_id:post.id),:method=>:post, remote:true do |f|%>
+                <div class="panel-google-plus-textarea" id="post_comment_form<%=post.id%>">         
+                  <%= f.label :Comment%>
+    							<%= f.text_field :body%><br>
+    							<%= f.fields_for(:images) do|avatar|%>
+      							<%= avatar.file_field :avatar %><br>
+      							<%= avatar.link_to_remove "Remove this avatar " %><br>
+    							<%end%>
+   								<%= f.link_to_add "Add a avatar", :images%><br> 
+    							<%= f.submit "Comment",class:"btn btn-success"%>
+									<%end%>
+                  <button type="reset" class="[ btn btn-default ]">Cancel</button>    
+                  </div>
+                  <div class="clearfix"></div>
+              </div>    
+            </div>
+          </div>
+        </div>
+      </div>  
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+$(document).ready(function(){
+  $('.panel-google-plus-textarea').hide();
+  $('.all_comment').hide();
+});    
+  $('#button1_<%=post.id%>').click(function(){
+    $('#post_comment_form<%=post.id%>').toggle();
+   });
+  $('#button2_<%=post.id%>').click(function(){
+    $('#post_comment_<%=post.id%>').toggle();
+   });
+</script>

@@ -1,0 +1,9 @@
+<%= form_for @doctor,:url=>doctor_path,:method=>:patch do |f|%>
+ <%= f.label :doctor_name%>
+ <%= f.text_field :doctor_name%>
+
+ <%= f.label :speciality%>
+ <%= f.text_field :speciality%>
+
+ <%= f.submit "Submit"%>
+<%end%> 

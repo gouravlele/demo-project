@@ -1,0 +1,7 @@
+<%= form_tag @project,:url=>project_path,:method=>:patch do%>
+ Name:
+ <%=text_field_tag :name%>
+ Technology:
+ <%=text_field_tag :technology%>
+ <%= submit_tag'Submit'%>
+ <%end%>

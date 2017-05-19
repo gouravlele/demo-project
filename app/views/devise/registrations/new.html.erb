@@ -1,0 +1,149 @@
+<h2>Sign up</h2>
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { multipart: true }) do |f| %>
+   <div class="form-inputs"> 
+  <div class="form-group">
+    <%= f.label :firstname%>
+  	<%= f.text_field :first_name, autofocus: true,class:"form-control"%><br>
+  </div>  
+  <div class="form-group">
+    <%= f.label :lastname%>
+  	<%= f.text_field :last_name,class:"form-control"%><br>
+  </div>
+  <div class="form-group">
+  	<%= f.label :username%>
+    <%= f.text_field :user_name,class:"form-control" %><br>
+  </div>
+  <div class="form-group">  
+    <%= f.label :mobile_no%>
+  	<%= f.text_field :mobile_no,class:"form-control" %><br>
+  </div>
+  <div class="form-group">  
+    <%= f.label :email%>
+    <%= f.text_field :email,class:"form-control" %><br>
+  </div>
+  <div class="form-group">  
+    <%= f.label :password%>
+    <%= f.password_field :password,class:"form-control", hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length) %><br>
+  </div>
+  <div class="form-group">  
+    <%= f.label :password_confirmation%>
+    <%= f.password_field :password_confirmation,class:"form-control" %><br>
+  </div>  
+    <%= f.label :avatar%>
+    <%= f.file_field :avatar %><br>
+    <%= recaptcha_tags %>
+  </div>
+  <div class="form-actions">
+    <%= f.submit "Sign up",class:"btn btn-primary" %>
+  </div>
+<% end %>
+
+<%= render "devise/shared/links" %>
+<!-- <script type="text/javascript">
+  function validateform() 
+   {
+      var userFirstName = document.getElementById("user_first_name").value;
+      if (userFirstName == "") 
+      {
+        alert("FirstName must be filled out");
+        return false;
+      }
+      var userLastName = document.getElementById("user_last_name").value;
+      if (userLastName == "") 
+      {
+        alert("LastName must be filled out");
+        return false;
+      }
+      var userUserName = document.getElementById("user_user_name").value;
+      if (userUserName == "") 
+      {
+        alert("UserName must be filled out");
+        return false;
+      }
+      var emailID = document.getElementById("user_email").value;
+        atpos = emailID.indexOf("@");
+        dotpos = emailID.lastIndexOf(".");
+        if (atpos < 1 || ( dotpos - atpos < 2 )) 
+         {
+            alert("Please enter correct email ID")
+            return false;
+         }
+         return( true );   
+    }
+</script>  --> 
+<!-- <script src="lib/jquery/jquery-1.3.2.js" type="text/javascript"></script> -->
+<!-- <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script> -->
+<!-- <script src="javascripts/jquery.validate.js" type="text/javascript"></script> -->
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>
+<script src="javascripts/jquery.validate.js" type="text/javascript"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+  $.validator.addMethod("password",function(value,element)
+  {
+    return this.optional(element) || /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d$@$!%*?&]{8,16}/ .test(value);
+  },
+    "Passwords are 8-16 characters with uppercase letters, lowercase letters and at least one number."
+  );
+  $("form").validate({
+    rules: {
+      "user[first_name]": "required",
+      "user[last_name]": "required",
+      "user[user_name]" : "required",
+      "user[email]": {
+        required: true,
+        email: true 
+      },
+      "user[password]": {
+        required: true,
+        minlength: 8,
+        maxlength: 16
+      },
+      "user[mobile_no]": {
+        required: true,
+        minlength: 10
+      },
+      "user[password_confirmation]": {
+        required: true,
+        equalTo: "#user_password",
+        minlength: 8,
+        maxlength: 16
+      }
+    },
+    messages: {
+      "user[first_name]": "First Name field cannot be blank!",
+      "user[last_name]": "Last Name field cannot be blank!",
+      "user[user_name]": "User Name field cannot be blank!",
+      "user[password_confirmation]": "Password should be same field cannot be blank!",
+      "user[password]": {
+        required: "Password field cannot be blank!",
+        minlength: "Your password must be at least 6 characters long"
+      },
+      "user[mobile_no]": {
+        required: "Mobile Number field cannot be blank!",
+        minlength: "Your mobile_no must be at least 10 number long"
+      },
+      "user[email]": "Please enter a valid email address"
+      },
+    submitHandler: function(form){
+      form.submit();
+    }
+  });
+  // $("#user_first_name").mousedown(function(){
+  //   alert("Please Enter your name!!");
+  // }); 
+  // $("#user_last_name").hover(function(){
+  //   alert("You entered lastname");
+  // },
+  // function(){
+  //   alert("Bye! You now leave lastname!");
+  // }); 
+  // $("#user_user_name").focus(function(){
+  //  $(this).css("background-color", "#cccccc");
+  // });
+  // $("#user_user_name").blur(function(){
+  //   $(this).css("background-color", "#ffffff");
+  // });
+});
+</script>
+
+ 

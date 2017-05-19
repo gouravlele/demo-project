@@ -1,0 +1,56 @@
+<div class="comment" id="post_comment_<%=post.id%>">
+  <%= image_tag comment.user.avatar.url(:thumb),:class=>"img-circular", :size => "50x50"%>
+    <% comment.images.each do |image|%>
+      <%= image_tag image.avatar.url(:medium) %><br>
+    <%end%> 
+    <%= comment.body%><br>
+    <h5><span>Shared publicly</span> - <span><%=time_ago_in_words(comment.created_at, include_seconds: true)%></span> </h5>
+    <div class="dropdown pull-right">
+      <span class="dropdown-toggle" type="button" data-toggle="dropdown">
+      <span class="[ glyphicon glyphicon-chevron-down ]"></span>
+      </span>           
+      <ul class="dropdown-menu" role="menu">
+        <li role="presentation"><a role="menuitem" tabindex="-1"><%= link_to "Edit",edit_post_comment_path(post,comment)%></a></li>
+        <li role="presentation"><a role="menuitem" tabindex="-1"><%= link_to "Show",post_comment_path(post,comment)%></a></li>
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><%= link_to "Delete",post_comment_path(post,comment),method: :delete,remote:true%></a></li>
+      </ul>
+    </div>
+    <div class="comment_like" id="comment_like_<%=comment.id%>">
+      <%= render "likes/like_comment",:post=>post,:comment=>comment%>
+    </div>
+    <button type="button" id="button3_comment_<%=comment.id%>" class="btn btn-link">Add Reply</button> 
+    <button type="button" id="button4_comment_<%=comment.id%>" class="btn btn-link">Show All Reply(<%=comment.replies.count%>)</button>  
+    <%if comment.id.present?%>
+      <div class="all_reply" id="comment_reply_<%=comment.id%>">
+        <% comment.replies.each do |reply|%>     
+          <%=render "replies/reply",:post=>post,:comment=>comment,:reply=>reply%>  
+        <%end%>  
+      </div> 
+    <%end%> 
+  <%if comment.id.present?%>
+    <%= nested_form_for comment.replies.new,:url=>post_comment_replies_path(post_id:post.id,comment_id: comment.id),:method=>:post,remote:true do |r|%>
+    <div class="reply_attributes" id="comment_reply_form_<%=comment.id%>">
+      <%= r.label :reply%>
+      <%= r.text_field :body%><br>
+      <%= r.fields_for(:images) do|a|%>
+        <%= a.file_field :avatar %><br>
+        <%= a.link_to_remove "Remove this avatar " %><br>
+      <%end%>
+      <%= r.link_to_add "Add a avatar", :images%> 
+      <%= r.submit "Reply",class:"btn btn-success"%>
+    <%end%>
+    </div>
+  <%end%>
+</div>  
+<script type="text/javascript">
+  $(function () {
+  $('.reply_attributes').hide();
+  $('.all_reply').hide();
+});    
+  $('#button3_comment_<%=comment.id%>').click(function(){
+    $("#comment_reply_form_<%=comment.id%>").toggle();
+   });
+  $('#button4_comment_<%=comment.id%>').click(function(){
+    $('#comment_reply_<%=comment.id%>').toggle();
+   });
+</script>

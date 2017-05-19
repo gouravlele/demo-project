@@ -1,0 +1,25 @@
+<%= link_to "New Project",new_project_path%>
+<table class="table">
+  <thead class="thead-inverse">
+    <tr>
+      <th><#></th>
+      <th>Name</th>
+      <th>Technology</th>
+      <th>Edit</th>
+      <th>Show</th>
+      <th>Delete</th>
+    </tr>
+  </thead>  
+  <% @projects.each_with_index do|project,index|%>
+  <tbody>
+    <tr>
+      <td><%= index=index+1%></td>
+      <td><%=project.name%></td>
+      <td><%=project.technology%></td>
+      <td><%=link_to "Edit",edit_project_path(project)%></td>
+      <td><%=link_to "Show",project_path(project)%></td>
+      <td><%=link_to "Delete",project_path(project),method: :delete%></td>
+    </tr>
+  </tbody>
+  <%end%>
+</table>

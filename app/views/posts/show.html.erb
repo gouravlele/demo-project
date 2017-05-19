@@ -1,0 +1,106 @@
+<h1>Post:-</h1>
+<br>
+<br>
+<table>
+  <% @post.images.each do |image|%>
+    <tr>
+       <ul>
+        <li><%= image_tag image.avatar.url(:medium) %></li>
+      </ul>      
+  <%end%>
+    <td><%=@post.post%></td>  
+    </tr> 
+</table> 
+  Likes:<%= @post.likes.count%><br>
+    <%if @post.likes.where(user_id: current_user.id).present?%>
+      <td><%= link_to 'like',post_like_path(post_id:@post.id,like_id: current_user.likes.find_by(likeable_id: @post.id).id, type:"POST",button:"like"),method: :delete,style: "color: blue;",class: "btn btn-small"%></td>
+    <%else%>
+      <td><%= link_to 'like',post_likes_path(post_id:@post.id,type:"POST",button:"like"),method: :post, style: "color: gray;",class: "btn btn-small"%></td>
+    <%end%>
+    <h3><b>Create Comment</b></h3>
+    <%= nested_form_for @post.comments.new,:url=>post_comments_path(post_id:@post.id),:method=>:post do |f|%>
+      <%= f.label :Comment%>
+      <%= f.text_field :body%><br>
+      <%= f.fields_for(:images) do|avatar|%>
+        <%= avatar.file_field :avatar %><br>
+        <%= avatar.link_to_remove "Remove this avatar " %><br>
+      <%end%>
+      <%= f.link_to_add "Add a avatar", :images%> 
+      <%= f.submit%>
+    <%end%>
+    <h1>Comments</h1>
+<table>
+  <% @post.comments.each do |comment|%>
+    <% if comment.id.present? %>
+      <tr>
+        <% comment.images.each do |image|%>
+        <ul>
+          <li><%= image_tag image.avatar.url(:medium) %></li>
+        </ul>  
+        <%end%>  
+        <td><%= comment.body%></td> 
+        <td><%= link_to 'Edit', edit_post_comment_path(post_id:@post.id,comment:comment.id)%></td>
+        <td><%= link_to 'Show', post_comment_path(post_id:@post.id,comment:comment.id,type:'P')%></td>
+        <td><%= link_to 'Delete', post_comment_path(post_id:@post.id,comment:comment.id),method: :delete%></td>
+        <% if comment.id.present? %>
+          <%if comment.likes.where(user_id: current_user.id).present?%>
+            <td><%= link_to 'like',post_comment_like_path(post_id:@post.id,comment_id:comment.id,like_id:current_user.likes.find_by(likeable_id: comment.id).id,type:"COMMENT",button:"like"),method: :delete,style: "color: blue;",class: "btn btn-small"%></td>
+          <%else%>
+            <td><%= link_to 'like',post_comment_likes_path(post_id:@post.id,comment_id:comment.id,type:"COMMENT",button:"like"),method: :post, style: "color: gray;",class: "btn btn-small"%></td>
+          <%end%>
+          <td><%= comment.likes.count%></td>
+        <%end%>
+      </table>  
+      <h3><b>Create Reply</b></h3>
+        <%if comment.id.present?%>
+          <%@reply=comment.replies.new%>
+          <%= nested_form_for comment.replies.new,:url=>post_comment_replies_path(post_id:@post.id,comment_id: comment.id),:method=>:post do |r|%>
+            <%= r.label :reply%>
+            <%= r.text_field :body%><br>
+            <%= r.fields_for(:images) do|a|%>
+              <%= a.file_field :avatar %><br>
+              <%= a.link_to_remove "Remove this avatar " %><br>
+            <%end%>
+            <%= r.link_to_add "Add a avatar", :images%> 
+            <%= r.submit%>
+          <%end%>
+        <%end%>
+        <table>
+          <tr>
+            <th>#</th>
+            <th>Replies</th>
+          </tr>
+          <%if comment.id.present?%>
+            <% comment.replies.each do |reply|%>
+             <% if reply.id.present? %>
+              <tr> 
+                <% reply.images.each do |image|%>
+                  <tr>
+                    <ul>
+                      <li><%= image_tag image.avatar.url(:medium) %></li>
+                    </ul>      
+                <%end%>
+                    <td><%= reply.body%></td>
+              </tr> 
+                <td><%= link_to 'Edit', edit_post_comment_reply_path(post_id:@post.id,comment_id:comment.id,reply:reply.id)%></td>
+                <td><%= link_to 'Show', post_comment_reply_path(post_id:@post.id,comment_id:comment.id,reply:reply.id,type:'C')%></td>
+                <td><%= link_to 'Delete', post_comment_reply_path(post_id:@post.id,comment_id:comment.id,reply:reply.id),method: :delete%></td>
+              </tr> 
+              <% if reply.id.present? %>
+                  <%if reply.likes.where(user_id: current_user.id).present? %>
+                    <td><%= link_to 'like',post_comment_like_path(post_id:@post.id,comment_id:comment.id,reply_id:reply.id,like_id:current_user.likes.find_by(likeable_id: reply.id).id,button:"like"),method: :delete,style: "color: blue;",class: "btn btn-small"%></td>
+                  <%else%>
+                    <td><%= link_to 'like',post_comment_likes_path(post_id:@post.id,comment_id:comment.id,reply_id:reply.id,button:"like"),method: :post, style: "color: gray;",class: "btn btn-small"%></td>
+                  <%end%>
+                  <td><%= reply.likes.count%><td>
+                <%end%> 
+              <%end%>  
+            <%end%>
+          <%end%>  
+        </table>
+      </tr>
+    </tr> 
+  <%end%> 
+ <%end%>
+</table>
+

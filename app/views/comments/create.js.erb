@@ -1,0 +1,2 @@
+$('.all_comment').prepend("<%=j render :partial=>'comments/comment',:locals=>{:post=>@post,:comment=>@comment}%>")
+$('#comment_body').val("");

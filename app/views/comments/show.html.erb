@@ -1,0 +1,40 @@
+<table>
+  <tr>
+    <th>Comment</th>
+  </tr>
+  <tr>
+    <td><%=@comment.body%></td>
+  <tr>
+</table> 
+  Likes:<%=@comment.likes.count%>
+ <%= simple_form_for @comment.likes.new,:url=>post_comment_likes_path(post_id:@post.id,comment_id:@comment.id),:method=>:post do |f|%>
+   <%= hidden_field_tag 'type','COMMENT'%>
+   <%= button_tag(type: 'submit', value: 'Like', class: "btn btn-primary btn-sm") do %>
+    <i class="icon-ok icon-white"></i> Like
+    <%end%>
+   <%= button_tag(type: 'submit', value: 'Unlike', class: "btn btn-primary btn-sm") do %>
+    <i class="icon-ok icon-white"></i> Unlike
+  <% end %>
+<%end%>
+<%= simple_form_for @comment.replies.new,:url=>post_comment_replies_path(post_id:@post.id,comment_id:@comment.id),:method=>:post do |f|%>
+  <%= f.input :body%>
+  <%= f.submit%>
+<%end%>
+<table>
+  <tr>
+    <th>#</th>
+    <th>Replies</th>
+  </tr>
+  <% @comment.replies.each_with_index do |reply,index|%>
+    <tr> 
+      <td><%=index+1%></td>
+      <td><%= reply.body%></td>
+      <td><%= link_to 'Edit', edit_post_comment_reply_path(post_id:@post.id,comment_id:@comment.id,reply:reply.id)%></td>
+      <td><%= link_to 'Show', post_comment_reply_path(post_id:@post.id,comment_id:@comment.id,reply:reply.id,type:'C')%></td>
+      <td><%= link_to 'Delete', post_comment_reply_path(post_id:@post.id,comment_id:@comment.id,reply:reply.id),method: :delete%></td>
+    </tr>  
+  <%end%>
+</table>
+
+
+

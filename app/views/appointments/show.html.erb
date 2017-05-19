@@ -1,0 +1,16 @@
+<table class="table">
+  <thead class="thead-inverse">
+    <tr>
+      <th>Appointment Date</th>
+      <th>Doctor Name</th>
+      <th>Patient Name</th>
+    </tr>
+  </thead>
+   <tbody>
+    <tr>
+    <td><%=@appointment.appointment_date%></td>
+    <td><%=@appointment.doctor.doctor_name%></td>
+    <td><%=@appointment.patient.patient_name%></td>
+    </tr>
+  </tbody>
+</table>

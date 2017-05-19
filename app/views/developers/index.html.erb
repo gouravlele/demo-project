@@ -1,0 +1,25 @@
+<%=link_to 'New Developer',new_developer_path%>
+<table class="table">
+  <thead class="thead-inverse">
+	  <tr>
+      <th>#</th>
+	    <th>Name</th>
+      <th>City</th>
+      <th>Edit</th>
+      <th>Show</th>
+      <th>Delete</th>
+ 	  </tr>
+  </thead>  
+  <% @developers.each_with_index do |developer,index|%>
+    <tbody>  
+      <tr>
+        <td><%= index=index+1%></td>
+        <td><%= developer.name%></td>
+        <td><%= developer.city%></td>
+        <td><%= link_to 'Edit', edit_developer_path(developer)%></td>
+        <td><%= link_to 'Show', developer_path(developer)%></td>
+        <td><%= link_to 'Delete', developer_path(developer),method: :delete%></td>
+      </tr>
+    </tbody>  
+  <%end%>  
+</table>

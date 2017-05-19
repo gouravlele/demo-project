@@ -1,0 +1,14 @@
+<%= form_tag @project,:url=>projects_path,:method=>:post do %>
+
+  Name:
+  <%= text_field_tag :name%>
+
+  Technology:
+  <%= text_field_tag :technology%>
+
+  Developer:
+  <%= select_tag "developer",options_for_select(Developer.all.collect{|u|[u.name,u.id]},{:multiple => true, :size => 5 })%>
+
+  <%= submit_tag'Submit'%>
+<%end%>
+<%= link_to 'Home',welcomes_path%>

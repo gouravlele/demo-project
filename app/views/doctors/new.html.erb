@@ -1,0 +1,22 @@
+
+<div class="container-fluid">
+<%= form_for @doctor,:url=>doctors_path,:method=>:post do |f|%>
+    <div class="form-group", class="col-xs-4">
+     <%= f.label :doctor_name%>
+     <%= f.text_field :doctor_name%>
+    </div>
+
+    <div class="form-group", class="col-xs-4">
+      <%= f.label :speciality%>
+     <%= f.text_field :speciality%>
+    </div>
+    
+<button class="btn btn-primary " name="submit" type="submit">
+        Submit
+       </button>
+    </div> 
+ <%end%>
+</div>  
+    
+       
+    
